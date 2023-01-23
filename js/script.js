@@ -63,14 +63,14 @@ function createRowBlockAnClasses(data, style) {
     timeBlockEl.attr("class", "time-block col-1");
     descriptionEl.attr("class", "description col-10");
 
-    
+
     //disable past hours
     descriptionEl.attr("disabled", true);
-    saveBtnEl.attr("disabled", true);
+    // saveBtnEl.attr("disabled", true);
 
-    if("future" === style){
+    if ("future" === style) {
         descriptionEl.attr("disabled", false);
-        saveBtnEl.attr("disabled", false);
+        // saveBtnEl.attr("disabled", false);
     }
 
     descriptionEl.attr("class", "description col-10");
@@ -78,31 +78,37 @@ function createRowBlockAnClasses(data, style) {
     // add background color
     descriptionEl.addClass(style);
 
+    saveBtnEl.attr("name", data.id + "_id");
     saveBtnEl.attr("class", "saveBtn col-1");
     saveBtnIconEl.attr("class", "fas fa-save");
 
     saveBtnEl.append(saveBtnIconEl);
     timeBlockEl.text(data.time);
+
+
     rowConteinerEl.append(timeBlockEl);
     rowConteinerEl.append(descriptionEl);
     rowConteinerEl.append(saveBtnEl);
     rowConteinerEl.appendTo(conteinerEl)
 }
 
-function saveAppointment(){
-    
+function saveAppointment(e) {
+    // e.preventDefault();
+    e.stopPropagation()
+    console.log($(this))
 }
 
-function appointmentNotification(){
+function appointmentNotification() {
 
 }
 
 //Run javascript after html loaded
 $(function () {
-    //Display the current day at the top of the calendar when a user opens the planner.
+
+    // Display the current day at the top of the calendar when a user opens the planner.
     $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
-    //create list of appointment
+    //create list of appointment with Color-code each timeblock based on past, present, and future
     for (let index = 0; index < hoursScheduler.length; index++) {
         const element = hoursScheduler[index];
         if (moment(element.time, "h A").format("h A") === cuurentHour) {
@@ -113,6 +119,8 @@ $(function () {
             createRowBlockAnClasses(element, "future");
         }
     }
+    // button event click
+    $(".container").on("click", "button", saveAppointment);
 
-    $()
+
 })
