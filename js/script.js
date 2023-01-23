@@ -1,47 +1,47 @@
 
 var hoursScheduler = [
     {
-        id: 1,
+        id: "1",
         time: "9 AM",
         description: ""
     },
     {
-        id: 2,
+        id: "2",
         time: "10 AM",
         description: ""
     },
     {
-        id: 3,
+        id: "3",
         time: "11 AM",
         description: ""
     },
     {
-        id: 4,
+        id: "4",
         time: "12 PM",
         description: ""
     },
     {
-        id: 5,
+        id: "5",
         time: "1 PM",
         description: ""
     },
     {
-        id: 6,
+        id: "6",
         time: "2 PM",
         description: ""
     },
     {
-        id: 7,
+        id: "7",
         time: "3 PM",
         description: ""
     },
     {
-        id: 8,
+        id: "8",
         time: "4 PM",
         description: ""
     },
     {
-        id: 9,
+        id: "9",
         time: "5 PM",
         description: ""
     }
@@ -62,30 +62,30 @@ function createRowBlockAnClasses(data, style) {
     rowConteinerEl.attr("class", "row");
     timeBlockEl.attr("class", "time-block col-1");
     descriptionEl.attr("class", "description col-10");
+    descriptionEl.attr("class", "description col-10");
 
 
     //disable past hours
-    descriptionEl.attr("disabled", true);
+    // descriptionEl.attr("disabled", true);
     // saveBtnEl.attr("disabled", true);
 
     if ("future" === style) {
-        descriptionEl.attr("disabled", false);
+        // descriptionEl.attr("disabled", false);
         // saveBtnEl.attr("disabled", false);
     }
 
-    descriptionEl.attr("class", "description col-10");
-
     // add background color
     descriptionEl.addClass(style);
+    // add name attribute
+    saveBtnEl.attr("data-id", data.id);
 
-    saveBtnEl.attr("name", data.id + "_id");
     saveBtnEl.attr("class", "saveBtn col-1");
     saveBtnIconEl.attr("class", "fas fa-save");
 
     saveBtnEl.append(saveBtnIconEl);
     timeBlockEl.text(data.time);
 
-
+    // append to container block
     rowConteinerEl.append(timeBlockEl);
     rowConteinerEl.append(descriptionEl);
     rowConteinerEl.append(saveBtnEl);
@@ -93,13 +93,20 @@ function createRowBlockAnClasses(data, style) {
 }
 
 function saveAppointment(e) {
-    // e.preventDefault();
-    e.stopPropagation()
-    console.log($(this))
+    e.preventDefault();
+    //get cuurent object
+    hoursScheduler.forEach(element => {
+        if(element.id == $(this).attr("data-id")){
+            element.description = $(this).prev().val();
+        }
+    });
+    //save modified object
+    localStorage.setItem("data", JSON.stringify(hoursScheduler));
+    appointmentNotification();
 }
 
 function appointmentNotification() {
-
+    console.log("appointment added to localstorage");
 }
 
 //Run javascript after html loaded
