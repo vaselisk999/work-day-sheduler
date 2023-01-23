@@ -51,6 +51,7 @@ var cuurentHour = moment().format("h A");
 
 // row element witch contains time, description, button
 function createRowBlockAnClasses(data, style) {
+    // create elements
     var conteinerEl = $('.container');
     var rowConteinerEl = $('<div>');
     var timeBlockEl = $('<div>');
@@ -64,16 +65,6 @@ function createRowBlockAnClasses(data, style) {
     descriptionEl.attr("class", "description col-10");
     descriptionEl.attr("class", "description col-10");
 
-
-    //disable past hours
-    // descriptionEl.attr("disabled", true);
-    // saveBtnEl.attr("disabled", true);
-
-    if ("future" === style) {
-        // descriptionEl.attr("disabled", false);
-        // saveBtnEl.attr("disabled", false);
-    }
-
     // add background color
     descriptionEl.addClass(style);
     // add name attribute
@@ -82,8 +73,12 @@ function createRowBlockAnClasses(data, style) {
     saveBtnEl.attr("class", "saveBtn col-1");
     saveBtnIconEl.attr("class", "fas fa-save");
 
+    //add icon
     saveBtnEl.append(saveBtnIconEl);
+
+    //add data to elements
     timeBlockEl.text(data.time);
+    descriptionEl.append(data.description);
 
     // append to container block
     rowConteinerEl.append(timeBlockEl);
@@ -96,17 +91,41 @@ function saveAppointment(e) {
     e.preventDefault();
     //get cuurent object
     hoursScheduler.forEach(element => {
-        if(element.id == $(this).attr("data-id")){
+        if (element.id == $(this).attr("data-id")) {
             element.description = $(this).prev().val();
         }
     });
     //save modified object
     localStorage.setItem("data", JSON.stringify(hoursScheduler));
+    //show notification
     appointmentNotification();
+
+    //render elements
+    renderElements(hoursScheduler);
 }
 
 function appointmentNotification() {
-    console.log("appointment added to localstorage");
+    //show text
+    $(".container").prepend("<p class='notification'>appointment added to <b>localStorage</b></p>");
+
+    //remove text after some time
+    var timeId = setTimeout(function () {
+        $(".container").find('p').remove(".notification");
+        clearInterval(timeId);
+    }, 1500)
+}
+
+function renderElements(localData) {
+    //create list of appointment with Color-code each timeblock based on past, present, and future
+    localData.forEach(element => {
+        if (moment(element.time, "h A").format("h A") === cuurentHour) {
+            createRowBlockAnClasses(element, "present");
+        } else if (moment().isAfter(moment(element.time, "h A"))) {
+            createRowBlockAnClasses(element, "past");
+        } else {
+            createRowBlockAnClasses(element, "future");
+        }
+    });
 }
 
 //Run javascript after html loaded
@@ -115,19 +134,13 @@ $(function () {
     // Display the current day at the top of the calendar when a user opens the planner.
     $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
-    //create list of appointment with Color-code each timeblock based on past, present, and future
-    for (let index = 0; index < hoursScheduler.length; index++) {
-        const element = hoursScheduler[index];
-        if (moment(element.time, "h A").format("h A") === cuurentHour) {
-            createRowBlockAnClasses(element, "present");
-        } else if (moment().isAfter(moment(element.time, "h A"))) {
-            createRowBlockAnClasses(element, "past");
-        } else {
-            createRowBlockAnClasses(element, "future");
-        }
-    }
+    //get localStorage data if localStorage data is not null we use it if not we use empty object
+    var localData = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : hoursScheduler;
+
+    //render elements
+    renderElements(localData);
+
     // button event click
     $(".container").on("click", "button", saveAppointment);
 
-
-})
+});
