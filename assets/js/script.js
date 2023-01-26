@@ -96,6 +96,7 @@ function saveAppointment(e) {
             element.description = $(this).prev().val();
         }
     });
+    console.log(hoursScheduler);
     //save modified object
     window.localStorage.setItem("data", JSON.stringify(hoursScheduler));
 
