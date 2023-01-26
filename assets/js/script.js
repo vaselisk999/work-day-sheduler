@@ -90,6 +90,9 @@ function createRowBlockAnClasses(data, style) {
 function saveAppointment(e) {
     e.preventDefault();
     $(".container").empty();
+
+    console.log($(this).attr("data-id"))
+    console.log($(e.target).attr("data-id"))
     //get cuurent object
     hoursScheduler.forEach(element => {
         if (element.id == $(this).attr("data-id")) {
