@@ -92,16 +92,19 @@ function saveAppointment(e) {
     $(".container").empty();
 
     console.log($(this).attr("data-id"))
+    console.log(element.id)
     console.log($(e.target).attr("data-id"))
     //get cuurent object
     hoursScheduler.forEach(element => {
         if (element.id == $(this).attr("data-id")) {
+            console.log($(this).prev().val())
+            console.log($(e.target).prev().val())
             element.description = $(this).prev().val();
         }
     });
     console.log(hoursScheduler);
     //save modified object
-    window.localStorage.setItem("data", JSON.stringify(hoursScheduler));
+    localStorage.setItem("data", JSON.stringify(hoursScheduler));
 
     //render elements
     renderElements(hoursScheduler);
@@ -143,7 +146,7 @@ $(function () {
     $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
     //get localStorage data if localStorage data is not null we use it if not we use empty object
-    var localData = window.localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : hoursScheduler;
+    var localData = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : hoursScheduler;
 
     //render elements
     renderElements(localData);
