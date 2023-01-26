@@ -97,7 +97,7 @@ function saveAppointment(e) {
         }
     });
     //save modified object
-    localStorage.setItem("data", JSON.stringify(hoursScheduler));
+    window.localStorage.setItem("data", JSON.stringify(hoursScheduler));
 
     //render elements
     renderElements(hoursScheduler);
@@ -139,7 +139,7 @@ $(function () {
     $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
     //get localStorage data if localStorage data is not null we use it if not we use empty object
-    var localData = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : hoursScheduler;
+    var localData = window.localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : hoursScheduler;
 
     //render elements
     renderElements(localData);
