@@ -59,6 +59,15 @@ function createRowBlockAnClasses(data, style) {
     var saveBtnEl = $('<button>');
     var saveBtnIconEl = $('<i>');
 
+    //disable past hours
+    descriptionEl.attr("disabled", true);
+    saveBtnEl.attr("disabled", true);
+
+    if ("future" === style) {
+        descriptionEl.attr("disabled", false);
+        saveBtnEl.attr("disabled", false);
+    }
+    
     // initial classes
     rowConteinerEl.attr("class", "row");
     timeBlockEl.attr("class", "time-block col-1");
@@ -96,6 +105,7 @@ function saveAppointment(e) {
             hoursScheduler[index].description = $(this).parent().find('textarea').val();
         }
     });
+
     //save modified object
     localStorage.setItem("data", JSON.stringify(hoursScheduler));
 
