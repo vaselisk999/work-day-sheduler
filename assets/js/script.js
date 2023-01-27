@@ -99,7 +99,7 @@ function saveAppointment(e) {
         // console.log(element.id)
         if (element.id == $(this).attr("data-id")) {
             console.log($(this).siblings().find('textarea'))
-            console.log($(this).siblings().find('textarea').val())
+            console.log($(this).parent().find('textarea').val())
             console.log($(this).prev().val())
             console.log($(e.target).prev().val())
             element.description = $(this).prev().val();
