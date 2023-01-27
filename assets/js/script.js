@@ -98,6 +98,7 @@ function saveAppointment(e) {
     hoursScheduler.forEach((element, index) => {
         console.log(element.id)
         if (element.id == $(this).attr("data-id")) {
+            console.log($(this))
             console.log($(this).prev().val())
             console.log($(e.target).prev().val())
             element.description = $(this).prev().val();
