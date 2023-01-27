@@ -90,23 +90,12 @@ function createRowBlockAnClasses(data, style) {
 function saveAppointment(e) {
     e.preventDefault();
     $(".container").empty();
-
-    // console.log($(this).attr("data-id"))
-    
-    // console.log($(e.target).attr("data-id"))
     //get cuurent object
     hoursScheduler.forEach((element, index) => {
-        // console.log(element.id)
         if (element.id == $(this).attr("data-id")) {
-            console.log($(this).siblings().find('textarea'))
-            console.log($(this).parent().find('textarea').val())
-            console.log($(this).prev().val())
-            console.log($(e.target).prev().val())
-            element.description = $(this).prev().val();
-            hoursScheduler[index].description = $(this).prev().val();
+            hoursScheduler[index].description = $(this).parent().find('textarea').val();
         }
     });
-    console.log(hoursScheduler);
     //save modified object
     localStorage.setItem("data", JSON.stringify(hoursScheduler));
 
