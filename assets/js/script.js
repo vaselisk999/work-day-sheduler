@@ -91,14 +91,14 @@ function saveAppointment(e) {
     e.preventDefault();
     $(".container").empty();
 
-    console.log($(this).attr("data-id"))
+    // console.log($(this).attr("data-id"))
     
-    console.log($(e.target).attr("data-id"))
+    // console.log($(e.target).attr("data-id"))
     //get cuurent object
     hoursScheduler.forEach((element, index) => {
-        console.log(element.id)
+        // console.log(element.id)
         if (element.id == $(this).attr("data-id")) {
-            console.log($(this))
+            console.log($(this).prev())
             console.log($(this).prev().val())
             console.log($(e.target).prev().val())
             element.description = $(this).prev().val();
